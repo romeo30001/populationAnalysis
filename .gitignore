@@ -1,2 +1,11 @@
 #IDE
 .idea/
+
+#Virtual environment
+/env/
+
+#Files
+*.pyc
+*.gpx
+*.DS_Store
+~*
