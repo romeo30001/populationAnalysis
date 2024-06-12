@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Home Page</title>
-</head>
-<body>
-    <h1>Welcome to the Home Page</h1>
-    <p>This is the start page of your Django project.</p>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="pt-3">
+    <h1 class="text-center">Ziel des Projekts</h1>
+    <p>Das Ziel dieses Projekts ist es, eine Webanwendung zu entwickeln, die historische und aktuelle Bevölkerungsdaten
+        verschiedener Länder und Regionen sammelt, verarbeitet und visualisiert. Die Anwendung soll es Benutzern
+        ermöglichen, Bevölkerungswachstum, Trends und Prognosen zu analysieren.</p>
+</div>
+{% endblock %}

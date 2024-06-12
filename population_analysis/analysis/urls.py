@@ -1,7 +1,13 @@
 from django.urls import path
 
-from .views import home
+from . import views
+
 
 urlpatterns = [
-    path('', home, name='home'),
+    path('', views.home, name='home'),
+    path('wachstumsraten/', views.growth_rates, name='growth_rates'),
+    path('altersverteilung/', views.age_distribution, name='age_distribution'),
+    path('geschlechterverhaeltnis/', views.gender_ratio, name='gender_ratio'),
+
 ]
+
