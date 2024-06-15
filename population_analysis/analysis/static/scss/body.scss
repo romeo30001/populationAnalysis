@@ -1,0 +1,8 @@
+.container {
+    max-width: $container-width;
+    text-align: justify;
+
+    p {
+        word-wrap: break-word;
+    }
+}

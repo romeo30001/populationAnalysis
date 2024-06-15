@@ -13,11 +13,15 @@
     </div>
 
     <div class="charts text-center">
-        <img src="data:image/png;base64,{{ graphic }}" />
-        <br>
-        <img src="data:image/png;base64,{{ graphic1 }}" />
-        <br>
-        <img src="data:image/png;base64,{{ graphic2 }}" />
+        <div class="chart">
+            <img src="data:image/png;base64,{{ graphic }}" />
+        </div>
+        <div class="chart">
+            <img src="data:image/png;base64,{{ graphic1 }}" />
+        </div>
+        <div class="chart">
+            <img src="data:image/png;base64,{{ graphic2 }}" />
+        </div>
     </div>
 </div>
 {% endblock %}
