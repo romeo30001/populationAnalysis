@@ -1,8 +1,35 @@
-.container {
-    max-width: $container-width;
-    text-align: justify;
+.content {
+    padding-bottom: $content-container-pb;
+    .container {
+        max-width: $container-width;
+        text-align: justify;
 
-    p {
-        word-wrap: break-word;
+        p {
+            word-wrap: break-word;
+        }
+        .custom-h1{
+            padding-top: $h1-padding-top;
+            padding-bottom: $h1-padding-bottom;
+        }
+
+        .custom-pb{
+            padding-bottom: $hp-div-custom-pb;
+        }
+    }
+}
+
+@media (min-width: $medium-devices) {
+    .custom-h1{
+        padding-top: $h1-padding-top;
+        padding-bottom: $h1-padding-bottom;
+        font-size: $h1-custom-font-size;
+    }
+
+    .custom-h2{
+        font-size: $h2-custom-font-size;
+    }
+
+    .custom-h3{
+        font-size: $h3-custom-font-size;
     }
 }
