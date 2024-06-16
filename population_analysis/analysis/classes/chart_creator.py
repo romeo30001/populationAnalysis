@@ -62,7 +62,7 @@ class ChartCreator:
         plt.gcf().set_facecolor('#F8F9FA')
 
         plt.subplots_adjust(top=0.93)
-        plt.subplots_adjust(bottom=0.25)
+        plt.subplots_adjust(bottom=0.19)
         plt.subplots_adjust(left=0.088)
         plt.subplots_adjust(right=0.999)
 
