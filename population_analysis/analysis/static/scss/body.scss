@@ -1,5 +1,7 @@
 .content {
-    padding-bottom: $content-container-pb;
+    .space-from-footer{
+        padding-bottom: $space-from-footer;
+    }
     .container {
         max-width: $container-width;
         text-align: justify;
@@ -14,6 +16,21 @@
 
         .custom-pb{
             padding-bottom: $hp-div-custom-pb;
+        }
+
+        .chart-middle-top{
+            padding-top: $space-between-charts;
+        }
+
+        .chart-top{
+            padding-top: $space-between-charts;
+        }
+        .chart-btm{
+            padding-bottom: $space-between-charts;
+        }
+        .chart{
+            padding-top: $space-between-charts;
+            padding-bottom: $space-between-charts;
         }
     }
 }

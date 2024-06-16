@@ -3,29 +3,27 @@
 {% block content %}
 
 <div class="description">
-    <h1 class="text-center">Geschlehterverhältnis</h1>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-        est
-        laborum.</p>
+    <h1 class="custom-h1 text-center mb-0">Geschlehterverhältnis</h1>
+    <p class="mb-0">Diese Seite zeigt grafische Darstellungen des Geschlechterverhältnisses in verschiedenen Ländern und weltweit. Es
+        werden das Verhältnis von Männern zu Frauen über die Jahre sowie die Top 10 Länder nach dem prozentualen Anteil
+        von Männern und Frauen im Jahr 2022 dargestellt. Zusätzlich werden die Länder mit der höchsten männlichen und
+        weiblichen Bevölkerungszahl im Jahr 2022 visualisiert. Insgesamt betrug das globale Geschlechterverhältnis im
+        Jahr 2022 50,3 % Männer zu 49,7 % Frauen.</p>
 </div>
 <div class="charts text-center">
-    <div class="chart">
+    <div class="chart-top">
         <img src="data:image/png;base64,{{ graphic_world_ratio }}"/>
     </div>
     <div class="chart">
         <img src="data:image/png;base64,{{ graphic_male }}"/>
     </div>
-    <div class="chart">
+    <div class="chart-middle">
         <img src="data:image/png;base64,{{ graphic_female }}"/>
     </div>
     <div class="chart">
         <img src="data:image/png;base64,{{ graphic_male_to_female_percentage }}"/>
     </div>
-    <div class="chart">
+    <div class="chart-btm">
         <img src="data:image/png;base64,{{ graphic_female_to_male_percentage }}"/>
     </div>
 </div>

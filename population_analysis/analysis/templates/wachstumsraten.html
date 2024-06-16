@@ -3,7 +3,7 @@
 {% block content %}
 <div class="description">
     <h1 class="custom-h1 text-center mb-0">Wachstumsraten</h1>
-    <p>Diese Seite präsentiert grafische Darstellungen des Bevölkerungswachstums in verschiedenen Ländern der letzten 10
+    <p class="mb-0">Diese Seite präsentiert grafische Darstellungen des Bevölkerungswachstums in verschiedenen Ländern der letzten 10
         und 60 Jahre sowie der Top 10 Länder nach Bevölkerungszahl im Jahr 2022. Die Diagramme bieten Einblicke in die
         Entwicklung der Bevölkerungszahlen sowie spezifische Wachstumsraten über diese Zeiträume. Durch den Vergleich
         der Daten können bedeutende demografische Trends erkannt und analysiert werden.
@@ -11,13 +11,13 @@
 </div>
 
 <div class="charts text-center">
-    <div class="chart">
+    <div class="chart-top">
         <img src="data:image/png;base64,{{ graphic }}"/>
     </div>
     <div class="chart">
         <img src="data:image/png;base64,{{ graphic2 }}"/>
     </div>
-    <div class="chart">
+    <div class="chart-btm">
         <img src="data:image/png;base64,{{ graphic1 }}"/>
     </div>
 </div>

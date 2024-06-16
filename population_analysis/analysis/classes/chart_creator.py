@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
 from io import BytesIO
 import base64
+
 matplotlib.use('Agg')
 
 
@@ -35,8 +36,8 @@ class ChartCreator:
 
         plt.gca().yaxis.set_major_formatter(FuncFormatter(lambda x, _: f'{int(x / 1000000000)}Mrd.'))
 
-        plt.subplots_adjust(top=0.92)
-        plt.subplots_adjust(bottom=0.25)
+        plt.subplots_adjust(top=0.97)
+        plt.subplots_adjust(bottom=0.099)
         plt.subplots_adjust(left=0.085)
         plt.subplots_adjust(right=0.999)
 
@@ -50,7 +51,8 @@ class ChartCreator:
         return graphic
 
     @staticmethod
-    def create_charts(countries, population, ylabel, xlabel, title, ratio=False):
+    def create_charts(countries, population, ylabel, xlabel, title, ratio=False, space_too_long=False,
+                      spaсe_too_small=False):
         plt.figure(figsize=(8.75, 7))
         bars = plt.bar(countries, population, color='#212529')
         plt.xlabel(xlabel, color='black')
@@ -61,8 +63,15 @@ class ChartCreator:
         plt.gca().set_facecolor('#F8F9FA')
         plt.gcf().set_facecolor('#F8F9FA')
 
-        plt.subplots_adjust(top=0.93)
-        plt.subplots_adjust(bottom=0.19)
+        plt.subplots_adjust(top=0.97)
+
+        if space_too_long:
+            plt.subplots_adjust(bottom=0.15)
+        elif spaсe_too_small:
+            plt.subplots_adjust(bottom=0.21)
+        else:
+            plt.subplots_adjust(bottom=0.19)
+
         plt.subplots_adjust(left=0.088)
         plt.subplots_adjust(right=0.999)
 
@@ -121,8 +130,8 @@ class ChartCreator:
 
         plt.gca().yaxis.set_major_formatter(FuncFormatter(lambda x, _: f'{int(x / 1000000000)}Mrd.'))
 
-        plt.subplots_adjust(top=0.92)
-        plt.subplots_adjust(bottom=0.25)
+        plt.subplots_adjust(top=0.97)
+        plt.subplots_adjust(bottom=0.098)
         plt.subplots_adjust(left=0.085)
         plt.subplots_adjust(right=0.999)
 

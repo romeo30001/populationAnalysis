@@ -16,7 +16,7 @@ def growth_rates(request):
     graphic1 = chart_creator.create_charts(countries1, population1, 'Wachstumsrate', 'Land',
                                            'Wachstumsrate in den letzten 10 Jahren (2013-2022)')
     graphic2 = chart_creator.create_charts(countries2, population2, 'Wachstumsrate', 'Land',
-                                           'Wachstumsrate in den letzten 60 Jahren (1963-2022)')
+                                           'Wachstumsrate in den letzten 60 Jahren (1963-2022)', False, True)
 
     return render(request, 'wachstumsraten.html', {'graphic': graphic, 'graphic1': graphic1, 'graphic2': graphic2})
 
@@ -58,7 +58,7 @@ def gender_ratio(request):
                                                                     ratios_male_to_female_percentage,
                                                                     'Anteil der Männer in %', 'Land',
                                                                     'Top 10 Länder nach Verhältnis Männer zu Frauen als Prozentzahl im Jahr 2022',
-                                                                    True)
+                                                                    True, False, True)
 
     countries_female_to_male_percentage, ratios_female_to_male_percentage = fetcher.get_top_countries_by_gender_ratio(
         'female_to_male_percentage')
