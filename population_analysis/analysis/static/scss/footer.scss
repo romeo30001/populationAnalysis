@@ -4,3 +4,8 @@
  .custom-font:hover{
     color: $footer-font-hover-color;
 }
+.footer .nav-link:hover{
+    text-decoration: underline;
+    text-underline-offset: $text-underline-offset-footer-navbar;
+    text-decoration-thickness: $text-decoration-thickness-footer-navbar;
+}
