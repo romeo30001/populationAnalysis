@@ -1,11 +1,11 @@
 # Analysis and Visualization of World Population Development with Django
 
 ## Project Goal
-The goal of this project is to develop a web application that collects, processes, and visualizes historical and current population data of various countries and regions. The application aims to enable users to analyze population growth, trends, and forecasts.
+The goal of this project is to develop a web application that collects, processes, and visualizes historical and current population data of various countries and regions. The application aims to enable users to analyze population growth, trends, and to make forecasts.
 
 ## Project Description
 ### 1. Data Source and Collection
-- Collect population data from public sources such as the World Bank, the United Nations (UN), or other statistical databases. For example: [World Bank Population Data](https://data.worldbank.org/indicator/SP.POP.TOTL).
+- Collect population data from the World Bank.
 - Store the data in a local database.
 
 ### 2. Data Processing
@@ -24,7 +24,7 @@ The goal of this project is to develop a web application that collects, processe
 - [Installation](#installation)
 - [Configuration](#configuration)
 - [Running the Project](#running-the-project)
-- [Quellen](#quellen)
+- [References](#references)
 
 
 ## Requirements
@@ -107,9 +107,10 @@ The goal of this project is to develop a web application that collects, processe
 Once the server is running, you can use the application to:
 - Analyze population growth, trends, and forecasts through various charts.
 
-## Quellen
+## References
 1. Django documentation: https://docs.djangoproject.com/en/5.0/
 2. Matplotlib documentation: https://matplotlib.org/stable/index.html
 3. Postgresql documentation: https://www.postgresql.org/files/documentation/pdf/14/postgresql-14-A4.pdf
 4. Venv documentation: https://docs.python.org/3/library/venv.html
 5. Python documentation: https://docs.python.org/3/
+6. World Bank Population Data: https://data.worldbank.org/indicator/SP.POP.TOTL
