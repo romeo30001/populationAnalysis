@@ -3,7 +3,7 @@
 
 #Virtual environment
 /env/
-
+.env
 #Files
 *.pyc
 *.gpx
