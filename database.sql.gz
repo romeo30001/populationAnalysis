@@ -2570,7 +2570,7 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 --
 
 COPY public.auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
-1	pbkdf2_sha256$720000$LyOIBTM8DUtO5xMCx7vzXb$nyphYDWHEK8HhNtlEJoRA8oYU89xKs8lSPWSQj7oWjQ=	2024-06-11 23:07:48.334621+02	t	roman				t	t	2024-06-11 23:06:45.842011+02
+1	pbkdf2_sha256$720000$LyOIBTM8DUtO5xMCx7vzXb$nyphYDWHEK8HhNtlEJoRA8oYU89xKs8lSPWSQj7oWjQ=	2024-06-17 12:19:35.926989+02	t	roman				t	t	2024-06-11 23:06:45.842011+02
 \.
 
 
@@ -2651,7 +2651,8 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 --
 
 COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
-glr7fzqgkf2hfkj8hyhnz0pqs3y3tm3s	.eJxVjEEOwiAQRe_C2hAoDIJL956BzMAgVUOT0q6Md7dNutDte-__t4i4LjWunec4ZnERWpx-GWF6cttFfmC7TzJNbZlHknsiD9vlbcr8uh7t30HFXre1B0tD0oGVz6SRuQxQwKiczmxSCQ4sGE9ZKXaON0RGF-VCUR4QwYrPF_NRODA:1sH8ia:0r6L6Fg_vdsrs_Gtq6tixQHt-gWd6xoMcyMRocBIGNs	2024-06-25 23:07:48.340103+02
+lqg6myh3ya0ep0w1zjzfb1pe5q0978sm	.eJxVjDsOwjAQBe_iGlm7_mJKes5grdcGB5AtxUmFuDtESgHtm5n3EpHWpcZ1lDlOWZwEisPvlogfpW0g36nduuTelnlKclPkToe89Fye5939O6g06rc-GmVBF3DM6IBsYK3QYfA2BcxeAzEwenZXNMl4BoJi2HgFhcFzFu8Ps1A3HA:1sJ7BN:V6ahMGTZW3e2wiLYCNo1yCobmGLJXSU83B2_ojfxY4I	2024-07-01 09:53:41.686078+02
+xue5ubotizxgtuw46zfewgt7tumyvpd3	.eJxVjDsOwjAQBe_iGlm7_mJKes5grdcGB5AtxUmFuDtESgHtm5n3EpHWpcZ1lDlOWZwEisPvlogfpW0g36nduuTelnlKclPkToe89Fye5939O6g06rc-GmVBF3DM6IBsYK3QYfA2BcxeAzEwenZXNMl4BoJi2HgFhcFzFu8Ps1A3HA:1sJ9SZ:uG1kfy01F50DSlQwa3NWTh7S3F0S8DV6rXIEf8RAMiA	2024-07-01 12:19:35.941459+02
 \.
 
 
