@@ -10,6 +10,9 @@ class PopulationDataFetcher:
 
     @staticmethod
     def get_age_distribution_data():
+        """
+        Retrieves age distribution data for the world population across years.
+        """
         old_age_data = OldAgeData.objects.filter(country_name='World').first()
         middle_age_data = MiddleAgeData.objects.filter(country_name='World').first()
         young_age_data = YoungAgeData.objects.filter(country_name='World').first()
@@ -23,6 +26,9 @@ class PopulationDataFetcher:
 
     @staticmethod
     def get_top_ten_countries_data(category):
+        """
+        Retrieves population data for the top 10 countries based on a specified category (old, middle, or young).
+        """
         old_age_data = OldAgeData.objects.filter(country_category='Country').order_by('-year_2022')[:10]
         middle_age_data = MiddleAgeData.objects.filter(country_category='Country').order_by('-year_2022')[:10]
         young_age_data = YoungAgeData.objects.filter(country_category='Country').order_by('-year_2022')[:10]
@@ -43,6 +49,9 @@ class PopulationDataFetcher:
 
     @staticmethod
     def get_population_data():
+        """
+        Retrieves population data for the top 10 most populated countries.
+        """
         data = TotalPopulationData.objects.filter(country_category='Country').order_by('-year_2022')[:10]
         countries = [entry.country_name for entry in data]
         population = [entry.year_2022 / 1000000 for entry in data]
@@ -50,6 +59,9 @@ class PopulationDataFetcher:
 
     @staticmethod
     def get_population_growth_data(years):
+        """
+        Retrieves population growth data for the top 10 countries over a specified period (10 or 60 years).
+        """
         data = TotalPopulationData.objects.filter(country_category='Country')
         data2 = data.annotate(
             population_difference=ExpressionWrapper(
@@ -75,6 +87,9 @@ class PopulationDataFetcher:
 
     @staticmethod
     def get_gender_ratio_data():
+        """
+        Retrieves gender ratio data for the world population across years.
+        """
         male_data = MalePopulationData.objects.filter(country_name='World').first()
         female_data = FemalePopulationData.objects.filter(country_name='World').first()
 
@@ -86,6 +101,9 @@ class PopulationDataFetcher:
 
     @staticmethod
     def get_top_ten_countries_gender(category):
+        """
+        Retrieves population data for the top 10 countries based on a specified gender (male or female).
+        """
         male_data = MalePopulationData.objects.filter(country_category='Country').order_by('-year_2022')[:10]
         female_data = FemalePopulationData.objects.filter(country_category='Country').order_by('-year_2022')[:10]
 
@@ -101,6 +119,9 @@ class PopulationDataFetcher:
 
     @staticmethod
     def get_top_countries_by_gender_ratio(ratio_type):
+        """
+        Calculates and retrieves data for the top 10 countries with the highest gender ratio (male-to-female or female-to-male).
+        """
         male_data = MalePopulationData.objects.filter(country_category='Country')
         female_data = FemalePopulationData.objects.filter(country_category='Country')
 

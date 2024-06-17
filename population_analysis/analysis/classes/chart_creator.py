@@ -14,6 +14,9 @@ class ChartCreator:
 
     @staticmethod
     def create_age_distribution_chart(years, old_population, middle_population, young_population):
+        """
+        Creates a line chart representing the age distribution of a population across multiple years.
+        """
         plt.figure(figsize=(8.75, 7))
 
         plt.plot(years, old_population, marker='o', linestyle='-', color='#212529', label='Alte (65+)')
@@ -53,6 +56,9 @@ class ChartCreator:
     @staticmethod
     def create_charts(countries, population, ylabel, xlabel, title, ratio=False, space_too_long=False,
                       spaсe_too_small=False):
+        """
+        Creates a bar chart.
+        """
         plt.figure(figsize=(8.75, 7))
         bars = plt.bar(countries, population, color='#212529')
         plt.xlabel(xlabel, color='black')
@@ -109,6 +115,9 @@ class ChartCreator:
 
     @staticmethod
     def create_gender_ratio_chart(years, male_population, female_population):
+        """
+        Creates a line chart representing the gender ratio of a population across multiple years.
+        """
         plt.figure(figsize=(8.75, 7))
 
         plt.plot(years, male_population, marker='o', linestyle='-', color='#212529', label='Männlich')

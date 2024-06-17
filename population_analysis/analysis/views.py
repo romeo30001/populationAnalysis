@@ -4,6 +4,9 @@ from analysis.classes.population_data_fetcher import PopulationDataFetcher
 
 
 def growth_rates(request):
+    """
+    Renders the 'growth_rates.html' template with population growth data and charts.
+    """
     fetcher = PopulationDataFetcher()
     chart_creator = ChartCreator()
 
@@ -22,6 +25,9 @@ def growth_rates(request):
 
 
 def age_distribution(request):
+    """
+    Renders the 'altersverteilung.html' template with age distribution data and charts.
+    """
     fetcher = PopulationDataFetcher()
     chart_creator = ChartCreator()
 
@@ -46,6 +52,9 @@ def age_distribution(request):
 
 
 def gender_ratio(request):
+    """
+    Renders the 'geschlechterverhaeltnis.html' template with gender ratio data and charts.
+    """
     fetcher = PopulationDataFetcher()
     chart_creator = ChartCreator()
 
@@ -84,4 +93,7 @@ def gender_ratio(request):
 
 
 def home(request):
+    """
+    Renders the 'home.html' template, likely the landing page of the application.
+    """
     return render(request, 'home.html')
