@@ -1,9 +1,11 @@
 .custom-font{
     color: $footer-font-color;
 }
+
  .custom-font:hover{
     color: $footer-font-hover-color;
 }
+
 .footer .nav-link:hover{
     text-decoration: underline;
     text-underline-offset: $text-underline-offset-footer-navbar;
