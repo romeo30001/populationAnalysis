@@ -1,8 +1,8 @@
 # Analysis and Visualization of World Population Development with Django
 
 ## Author information
-Author: Roman Fen
-Class: FI-C26
+- Author: Roman Fen
+- Class: FI-C26
 
 ## Project Goal
 The goal of this project is to develop a web application that collects, processes, and visualizes historical and current population data of various countries and regions. The application aims to enable users to analyze population growth, trends, and to make forecasts.
