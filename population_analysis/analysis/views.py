@@ -66,7 +66,7 @@ def gender_ratio(request):
     graphic_male_to_female_percentage = chart_creator.create_charts(countries_male_to_female_percentage,
                                                                     ratios_male_to_female_percentage,
                                                                     'Anteil der Männer in %', 'Land',
-                                                                    'Top 10 Länder nach Verhältnis Männer zu Frauen als Prozentzahl im Jahr 2022',
+                                                                    'Top 10 Länder nach Verhältnis Männer zu Frauen im Jahr 2022',
                                                                     True, False, True)
 
     countries_female_to_male_percentage, ratios_female_to_male_percentage = fetcher.get_top_countries_by_gender_ratio(
@@ -74,7 +74,7 @@ def gender_ratio(request):
     graphic_female_to_male_percentage = chart_creator.create_charts(countries_female_to_male_percentage,
                                                                     ratios_female_to_male_percentage,
                                                                     'Anteil der Frauen in %', 'Land',
-                                                                    'Top 10 Länder nach Verhältnis Frauen zu Männern als Prozentzahl im Jahr 2022',
+                                                                    'Top 10 Länder nach Verhältnis Frauen zu Männern im Jahr 2022',
                                                                     True)
 
     countries_male, population_male = fetcher.get_top_ten_countries_gender("male")
