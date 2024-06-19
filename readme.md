@@ -29,6 +29,7 @@ The goal of this project is to develop a web application that collects, processe
 - [Installation](#installation)
 - [Configuration](#configuration)
 - [Running the Project](#running-the-project)
+- [Screenshots](#screenshots)
 - [References](#references)
 
 
@@ -111,6 +112,13 @@ The goal of this project is to develop a web application that collects, processe
 
 Once the server is running, you can use the application to:
 - Analyze population growth, trends, and forecasts through various charts.
+
+## Screenshots
+- Admin panel
+![admin-panel](images/admin-panel.png)
+- Frontend
+![frontend](images/frontend.png)
+
 
 ## References
 1. Django documentation: https://docs.djangoproject.com/en/5.0/
