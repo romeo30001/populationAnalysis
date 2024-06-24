@@ -55,7 +55,7 @@ class ChartCreator:
 
     @staticmethod
     def create_charts(countries, population, ylabel, xlabel, title, ratio=False, space_too_long=False,
-                      spaсe_too_small=False):
+                      space_too_small=False):
         """
         Creates a bar chart.
         """
@@ -73,7 +73,7 @@ class ChartCreator:
 
         if space_too_long:
             plt.subplots_adjust(bottom=0.15)
-        elif spaсe_too_small:
+        elif space_too_small:
             plt.subplots_adjust(bottom=0.21)
         else:
             plt.subplots_adjust(bottom=0.19)
