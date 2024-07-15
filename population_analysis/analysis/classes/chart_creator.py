@@ -9,67 +9,63 @@ matplotlib.use('Agg')
 
 class ChartCreator:
     """
-    A class to create and render charts.
+    A class to create charts.
     """
 
-    @staticmethod
-    def create_age_distribution_chart(years, old_population, middle_population, young_population):
+    def __init__(self, figsize=(8.75, 7), facecolor='#F8F9FA', legend_location='best'):
         """
-        Creates a line chart representing the age distribution of a population across multiple years.
+        Initialize ChartCreator with default settings.
+
+        :param figsize: Size of the figure.
+        :param facecolor: Background color of the chart.
+        :param legend_location: Location of the legend.
         """
-        plt.figure(figsize=(8.75, 7))
+        self.figsize = figsize
+        self.facecolor = facecolor
+        self.legend_location = legend_location
 
-        plt.plot(years, old_population, marker='o', linestyle='-', color='#212529', label='Alte (65+)')
-        plt.plot(years, middle_population, marker='s', linestyle='-', color='#212529', label='Mittlere (15-64)')
-        plt.plot(years, young_population, marker='^', linestyle='-', color='#212529', label='Junge (bis 14)')
-
-        plt.xlabel('Jahr', color='black')
-        plt.ylabel('Bevölkerungsanzahl', color='black')
-        plt.title('Altersverteilung der Bevölkerung', color='black')
-
-        plt.xticks(years, rotation=45, color='black')
-        plt.yticks(color='black')
-
-        plt.legend()
-
-        plt.gca().set_facecolor('#F8F9FA')
-        plt.gcf().set_facecolor('#F8F9FA')
-
-        plt.gca().xaxis.set_major_formatter(FuncFormatter(lambda x, _: f'{int(x)}'))
-
-        plt.gca().yaxis.set_major_formatter(FuncFormatter(lambda x, _: f'{int(x / 1000000000)}Mrd.'))
-
-        plt.subplots_adjust(top=0.97)
-        plt.subplots_adjust(bottom=0.099)
-        plt.subplots_adjust(left=0.085)
-        plt.subplots_adjust(right=0.999)
-
-        buffer = BytesIO()
-        plt.savefig(buffer, format='png')
-        buffer.seek(0)
-        image_png = buffer.getvalue()
-        buffer.close()
-
-        graphic = base64.b64encode(image_png).decode('utf-8')
-        return graphic
-
-    @staticmethod
-    def create_charts(countries, population, ylabel, xlabel, title, ratio=False, space_too_long=False,
-                      space_too_small=False):
+    def _apply_common_formatting(self, xlabel, ylabel, title):
         """
-        Creates a bar chart.
+        Apply common formatting to the chart.
         """
-        plt.figure(figsize=(8.75, 7))
-        bars = plt.bar(countries, population, color='#212529')
         plt.xlabel(xlabel, color='black')
         plt.ylabel(ylabel, color='black')
         plt.title(title, color='black')
         plt.xticks(rotation=45, color='black')
         plt.yticks(color='black')
-        plt.gca().set_facecolor('#F8F9FA')
-        plt.gcf().set_facecolor('#F8F9FA')
+        plt.gca().set_facecolor(self.facecolor)
+        plt.gcf().set_facecolor(self.facecolor)
+        plt.subplots_adjust(top=0.97, left=0.085, right=0.999)
 
-        plt.subplots_adjust(top=0.97)
+    def _save_and_encode(self):
+        """
+        Save the chart to a buffer and encode it in base64.
+        """
+        buffer = BytesIO()
+        plt.savefig(buffer, format='png')
+        buffer.seek(0)
+        image_png = buffer.getvalue()
+        buffer.close()
+        return base64.b64encode(image_png).decode('utf-8')
+
+    def create_bar_chart(self, categories, values, ylabel, xlabel, title, ratio=False, space_too_long=False, space_too_small=False):
+        """
+        Creates a bar chart.
+
+        :param categories: List of categories for the x-axis.
+        :param values: List of values for the y-axis.
+        :param ylabel: Label for the y-axis.
+        :param xlabel: Label for the x-axis.
+        :param title: Title of the chart.
+        :param ratio: Boolean indicating if the y-axis should be formatted as a percentage.
+        :param space_too_long: Boolean indicating if the bottom space should be adjusted for long labels.
+        :param space_too_small: Boolean indicating if the bottom space should be adjusted for short labels.
+        """
+
+        plt.figure(figsize=self.figsize)
+        bars = plt.bar(categories, values, color='#212529')
+
+        self._apply_common_formatting(xlabel, ylabel, title)
 
         if space_too_long:
             plt.subplots_adjust(bottom=0.15)
@@ -78,77 +74,52 @@ class ChartCreator:
         else:
             plt.subplots_adjust(bottom=0.19)
 
-        plt.subplots_adjust(left=0.088)
-        plt.subplots_adjust(right=0.999)
-
         if ratio:
             formatter = FuncFormatter(lambda x, _: f'{int(x)}%')
             plt.gca().yaxis.set_major_formatter(formatter)
-
-            for bar, value in zip(bars, population):
-                plt.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 0.05,
-                         f'{value:.2f}%' if 'Verhältnis' in ylabel else f'{value:.0f}%',
-                         ha='center', va='bottom', color='black')
-
-            max_y_value = max(population)
-            plt.gca().set_ylim(0, max_y_value * 1.15)
-
+            for bar, value in zip(bars, values):
+                plt.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 0.05, f'{value:.2f}%', ha='center', va='bottom', color='black')
         else:
             formatter = FuncFormatter(lambda x, _: f'{int(x)}M')
             plt.gca().yaxis.set_major_formatter(formatter)
+            for bar, value in zip(bars, values):
+                plt.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 0.05, f'{value:.0f}M', ha='center', va='bottom', color='black')
 
-            for bar, value in zip(bars, population):
-                plt.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 0.05,
-                         f'{value:.0f}M', ha='center', va='bottom', color='black')
+        max_y_value = max(values)
+        plt.gca().set_ylim(0, max_y_value * 1.15)
 
-            max_y_value = max(population)
-            plt.gca().set_ylim(0, max_y_value * 1.15)
+        return self._save_and_encode()
 
-        buffer = BytesIO()
-        plt.savefig(buffer, format='png')
-        buffer.seek(0)
-        image_png = buffer.getvalue()
-        buffer.close()
-
-        graphic = base64.b64encode(image_png).decode('utf-8')
-        return graphic
-
-    @staticmethod
-    def create_gender_ratio_chart(years, male_population, female_population):
+    def create_line_chart(self, years, data_series, labels, xlabel, ylabel, title, y_format='Mrd.'):
         """
-        Creates a line chart representing the gender ratio of a population across multiple years.
+        Creates a line chart with multiple data series.
+
+        :param years: List of years.
+        :param data_series: List of lists, where each sublist contains data points for a series.
+        :param labels: List of labels for the data series.
+        :param xlabel: Label for the x-axis.
+        :param ylabel: Label for the y-axis.
+        :param title: Title of the chart.
+        :param y_format: Format for y-axis labels. Default is 'Mrd.' (billions).
         """
-        plt.figure(figsize=(8.75, 7))
+        plt.figure(figsize=self.figsize)
 
-        plt.plot(years, male_population, marker='o', linestyle='-', color='#212529', label='Männlich')
-        plt.plot(years, female_population, marker='s', linestyle='-', color='#212529', label='Weiblich')
+        # Define markers and colors
+        markers = ['o', 's', '^']
+        colors = ['#212529']
 
-        plt.xlabel('Jahr', color='black')
-        plt.ylabel('Bevölkerungsanzahl', color='black')
-        plt.title('Geschlechterverhältnis der Weltbevölkerung', color='black')
+        for i, (data, label) in enumerate(zip(data_series, labels)):
+            plt.plot(years, data, marker=markers[i % len(markers)], linestyle='-', color=colors[i % len(colors)], label=label)
 
-        plt.xticks(years, rotation=45, color='black')
-        plt.yticks(color='black')
+        self._apply_common_formatting(xlabel, ylabel, title)
 
-        plt.legend()
-
-        plt.gca().set_facecolor('#F8F9FA')
-        plt.gcf().set_facecolor('#F8F9FA')
-
+        plt.legend(loc=self.legend_location)
         plt.gca().xaxis.set_major_formatter(FuncFormatter(lambda x, _: f'{int(x)}'))
+        if y_format == 'Mrd.':
+            plt.gca().yaxis.set_major_formatter(FuncFormatter(lambda x, _: f'{int(x / 1000000000)}Mrd.'))
+        elif y_format == 'M':
+            plt.gca().yaxis.set_major_formatter(FuncFormatter(lambda x, _: f'{int(x / 1000000)}M'))
 
-        plt.gca().yaxis.set_major_formatter(FuncFormatter(lambda x, _: f'{int(x / 1000000000)}Mrd.'))
+        plt.subplots_adjust(bottom=0.099)
 
-        plt.subplots_adjust(top=0.97)
-        plt.subplots_adjust(bottom=0.098)
-        plt.subplots_adjust(left=0.085)
-        plt.subplots_adjust(right=0.999)
-
-        buffer = BytesIO()
-        plt.savefig(buffer, format='png')
-        buffer.seek(0)
-        image_png = buffer.getvalue()
-        buffer.close()
-
-        graphic = base64.b64encode(image_png).decode('utf-8')
-        return graphic
+        return self._save_and_encode()
