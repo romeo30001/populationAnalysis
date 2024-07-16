@@ -135,8 +135,8 @@ COMPRESS_ROOT = BASE_DIR / 'analysis' / STATIC_URL
 
 
 # django-compressor settings
-COMPRESS_ENABLED = False
-COMPRESS_OFFLINE = False
+COMPRESS_ENABLED = True
+COMPRESS_OFFLINE = True
 COMPRESS_PRECOMPILERS = (
     ('text/x-scss', 'django_libsass.SassCompiler'),
 )
