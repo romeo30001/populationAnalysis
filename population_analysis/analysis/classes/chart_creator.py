@@ -14,8 +14,6 @@ class ChartCreator:
 
     def __init__(self, figsize=(8.75, 7), facecolor='#F8F9FA', legend_location='best'):
         """
-        Initialize ChartCreator with default settings.
-
         :param figsize: Size of the figure.
         :param facecolor: Background color of the chart.
         :param legend_location: Location of the legend.
@@ -27,6 +25,10 @@ class ChartCreator:
     def _apply_common_formatting(self, xlabel, ylabel, title):
         """
         Apply common formatting to the chart.
+
+        :param xlabel: Label for the x-axis.
+        :param ylabel: Label for the y-axis.
+        :param title: Title of the chart.
         """
         plt.xlabel(xlabel, color='black')
         plt.ylabel(ylabel, color='black')
@@ -35,11 +37,14 @@ class ChartCreator:
         plt.yticks(color='black')
         plt.gca().set_facecolor(self.facecolor)
         plt.gcf().set_facecolor(self.facecolor)
-        plt.subplots_adjust(top=0.97, left=0.085, right=0.999)
+        plt.subplots_adjust(top=0.97, left=0.087, right=0.999)
 
-    def _save_and_encode(self):
+    @staticmethod
+    def _save_and_encode():
         """
         Save the chart to a buffer and encode it in base64.
+
+        :return: Base64 encoded string of the chart image.
         """
         buffer = BytesIO()
         plt.savefig(buffer, format='png')
@@ -48,7 +53,8 @@ class ChartCreator:
         buffer.close()
         return base64.b64encode(image_png).decode('utf-8')
 
-    def create_bar_chart(self, categories, values, ylabel, xlabel, title, ratio=False, space_too_long=False, space_too_small=False):
+    def create_bar_chart(self, categories, values, ylabel, xlabel, title, ratio=False, space_too_long=False,
+                         space_too_small=False):
         """
         Creates a bar chart.
 
@@ -60,6 +66,7 @@ class ChartCreator:
         :param ratio: Boolean indicating if the y-axis should be formatted as a percentage.
         :param space_too_long: Boolean indicating if the bottom space should be adjusted for long labels.
         :param space_too_small: Boolean indicating if the bottom space should be adjusted for short labels.
+        :return: Base64 encoded string of the bar chart image.
         """
 
         plt.figure(figsize=self.figsize)
@@ -78,12 +85,14 @@ class ChartCreator:
             formatter = FuncFormatter(lambda x, _: f'{int(x)}%')
             plt.gca().yaxis.set_major_formatter(formatter)
             for bar, value in zip(bars, values):
-                plt.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 0.05, f'{value:.2f}%', ha='center', va='bottom', color='black')
+                plt.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 0.05, f'{value:.2f}%', ha='center',
+                         va='bottom', color='black')
         else:
             formatter = FuncFormatter(lambda x, _: f'{int(x)}M')
             plt.gca().yaxis.set_major_formatter(formatter)
             for bar, value in zip(bars, values):
-                plt.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 0.05, f'{value:.0f}M', ha='center', va='bottom', color='black')
+                plt.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 0.05, f'{value:.0f}M', ha='center',
+                         va='bottom', color='black')
 
         max_y_value = max(values)
         plt.gca().set_ylim(0, max_y_value * 1.15)
@@ -101,6 +110,7 @@ class ChartCreator:
         :param ylabel: Label for the y-axis.
         :param title: Title of the chart.
         :param y_format: Format for y-axis labels. Default is 'Mrd.' (billions).
+        :return: Base64 encoded string of the line chart image.
         """
         plt.figure(figsize=self.figsize)
 
@@ -109,7 +119,8 @@ class ChartCreator:
         colors = ['#212529']
 
         for i, (data, label) in enumerate(zip(data_series, labels)):
-            plt.plot(years, data, marker=markers[i % len(markers)], linestyle='-', color=colors[i % len(colors)], label=label)
+            plt.plot(years, data, marker=markers[i % len(markers)], linestyle='-', color=colors[i % len(colors)],
+                     label=label)
 
         self._apply_common_formatting(xlabel, ylabel, title)
 
