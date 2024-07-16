@@ -8,14 +8,27 @@ class PopulationDataFetcher:
     A class to fetch population data from the database.
     """
 
-    @staticmethod
-    def get_age_distribution_data():
+    def __init__(self, country='World', year=2022):
+        """
+        :param country: The name of the country. Defaults to 'World'.
+        :param year: The year for which data is fetched. Defaults to 2022.
+        """
+        self.country = country
+        self.year = year
+
+    def get_age_distribution_data(self):
         """
         Retrieves age distribution data for the world population across years.
+
+        :return: Tuple of lists (years, old_population, middle_population, young_population).
+                 - years: List of years from 1967 to 2022 (every 5 years).
+                 - old_population: List of population data for old age category across the years.
+                 - middle_population: List of population data for middle age category across the years.
+                 - young_population: List of population data for young age category across the years.
         """
-        old_age_data = OldAgeData.objects.filter(country_name='World').first()
-        middle_age_data = MiddleAgeData.objects.filter(country_name='World').first()
-        young_age_data = YoungAgeData.objects.filter(country_name='World').first()
+        old_age_data = OldAgeData.objects.filter(country_name=self.country).first()
+        middle_age_data = MiddleAgeData.objects.filter(country_name=self.country).first()
+        young_age_data = YoungAgeData.objects.filter(country_name=self.country).first()
 
         years = list(range(1967, 2023, 5))
         old_population = [getattr(old_age_data, f'year_{year}') for year in years]
@@ -24,74 +37,79 @@ class PopulationDataFetcher:
 
         return years, old_population, middle_population, young_population
 
-    @staticmethod
-    def get_top_ten_countries_data(category):
-        """
-        Retrieves population data for the top 10 countries based on a specified category (old, middle, or young).
-        """
-        old_age_data = OldAgeData.objects.filter(country_category='Country').order_by('-year_2022')[:10]
-        middle_age_data = MiddleAgeData.objects.filter(country_category='Country').order_by('-year_2022')[:10]
-        young_age_data = YoungAgeData.objects.filter(country_category='Country').order_by('-year_2022')[:10]
-
-        old_countries = [data.country_name for data in old_age_data]
-        old_population = [data.year_2022 / 1000000 for data in old_age_data]
-        middle_countries = [data.country_name for data in middle_age_data]
-        middle_population = [data.year_2022 / 1000000 for data in middle_age_data]
-        young_countries = [data.country_name for data in young_age_data]
-        young_population = [data.year_2022 / 1000000 for data in young_age_data]
-
-        if category == "old":
-            return old_countries, old_population
-        elif category == "middle":
-            return middle_countries, middle_population
-        else:
-            return young_countries, young_population
-
-    @staticmethod
-    def get_population_data():
+    def get_top_ten_countries_data(self, category):
         """
         Retrieves population data for the top 10 most populated countries.
+
+        :return: Tuple of lists (countries, population).
+                 - countries: List of country names.
+                 - population: List of population data (in millions) for the top 10 countries and the specified year.
         """
-        data = TotalPopulationData.objects.filter(country_category='Country').order_by('-year_2022')[:10]
+        if category == "old":
+            data = OldAgeData.objects.filter(country_category='Country').order_by(f'-year_{self.year}')[:10]
+        elif category == "middle":
+            data = MiddleAgeData.objects.filter(country_category='Country').order_by(f'-year_{self.year}')[:10]
+        else:
+            data = YoungAgeData.objects.filter(country_category='Country').order_by(f'-year_{self.year}')[:10]
+
         countries = [entry.country_name for entry in data]
-        population = [entry.year_2022 / 1000000 for entry in data]
+        population = [getattr(entry, f'year_{self.year}') / 1000000 for entry in data]
         return countries, population
 
-    @staticmethod
-    def get_population_growth_data(years):
+    def get_population_data(self):
+        """
+        Retrieves population data for the top 10 most populated countries.
+
+        :return: Tuple of lists (countries, population).
+                 - countries: List of country names.
+                 - population: List of population data (in millions) for the top 10 countries and the specified year.
+        """
+        data = TotalPopulationData.objects.filter(country_category='Country').order_by(f'-year_{self.year}')[:10]
+        countries = [entry.country_name for entry in data]
+        population = [getattr(entry, f'year_{self.year}') / 1000000 for entry in data]
+        return countries, population
+
+    def get_population_growth_data(self, years):
         """
         Retrieves population growth data for the top 10 countries over a specified period (10 or 60 years).
+
+        :param years: The period of years for which population growth is calculated (10 or 60).
+        :return: Tuple of lists (countries, population).
+                 - countries: List of country names.
+                 - population: List of population growth data (in millions) for the top 10 countries over the specified period.
         """
         data = TotalPopulationData.objects.filter(country_category='Country')
-        data2 = data.annotate(
-            population_difference=ExpressionWrapper(
-                (F('year_2022') - F('year_2013')) / 1000000, output_field=IntegerField()
-            )
-        )
-        data3 = data.annotate(
-            population_difference=ExpressionWrapper(
-                (F('year_2022') - F('year_1963')) / 1000000, output_field=IntegerField()
-            )
-        )
-        data2 = data2.order_by('-population_difference')[:10]
-        data3 = data3.order_by('-population_difference')[:10]
 
         if years == 10:
-            countries = [entry.country_name for entry in data2]
-            population = [entry.population_difference for entry in data2]
+            data = data.annotate(
+                population_difference=ExpressionWrapper(
+                    (F(f'year_{self.year}') - F(f'year_{self.year - 9}')) / 1000000,
+                    output_field=IntegerField()
+                )
+            ).order_by('-population_difference')[:10]
         else:
-            countries = [entry.country_name for entry in data3]
-            population = [entry.population_difference for entry in data3]
+            data = data.annotate(
+                population_difference=ExpressionWrapper(
+                    (F(f'year_{self.year}') - F(f'year_{self.year - 59}')) / 1000000,
+                    output_field=IntegerField()
+                )
+            ).order_by('-population_difference')[:10]
 
+        countries = [entry.country_name for entry in data]
+        population = [entry.population_difference for entry in data]
         return countries, population
 
-    @staticmethod
-    def get_gender_ratio_data():
+    def get_gender_ratio_data(self):
         """
         Retrieves gender ratio data for the world population across years.
+
+        :return: Tuple of lists (years, male_population, female_population).
+                 - years: List of years from 1967 to 2022 (every 5 years).
+                 - male_population: List of male population data across the years.
+                 - female_population: List of female population data across the years.
         """
-        male_data = MalePopulationData.objects.filter(country_name='World').first()
-        female_data = FemalePopulationData.objects.filter(country_name='World').first()
+        male_data = MalePopulationData.objects.filter(country_name=self.country).first()
+        female_data = FemalePopulationData.objects.filter(country_name=self.country).first()
 
         years = list(range(1967, 2023, 5))
         male_population = [getattr(male_data, f'year_{year}') for year in years]
@@ -99,28 +117,32 @@ class PopulationDataFetcher:
 
         return years, male_population, female_population
 
-    @staticmethod
-    def get_top_ten_countries_gender(category):
+    def get_top_ten_countries_gender(self, category):
         """
         Retrieves population data for the top 10 countries based on a specified gender (male or female).
+
+        :param category: The gender category ('male' or 'female').
+        :return: Tuple of lists (countries, population).
+                 - countries: List of country names.
+                 - population: List of population data (in millions) for the top 10 countries and the specified gender.
         """
-        male_data = MalePopulationData.objects.filter(country_category='Country').order_by('-year_2022')[:10]
-        female_data = FemalePopulationData.objects.filter(country_category='Country').order_by('-year_2022')[:10]
-
-        male_countries = [data.country_name for data in male_data]
-        male_population = [data.year_2022 / 1000000 for data in male_data]
-        female_countries = [data.country_name for data in female_data]
-        female_population = [data.year_2022 / 1000000 for data in female_data]
-
         if category == "male":
-            return male_countries, male_population
+            data = MalePopulationData.objects.filter(country_category='Country').order_by(f'-year_{self.year}')[:10]
         else:
-            return female_countries, female_population
+            data = FemalePopulationData.objects.filter(country_category='Country').order_by(f'-year_{self.year}')[:10]
 
-    @staticmethod
-    def get_top_countries_by_gender_ratio(ratio_type):
+        countries = [entry.country_name for entry in data]
+        population = [getattr(entry, f'year_{self.year}') / 1000000 for entry in data]
+        return countries, population
+
+    def get_top_countries_by_gender_ratio(self, ratio_type):
         """
         Calculates and retrieves data for the top 10 countries with the highest gender ratio (male-to-female or female-to-male).
+
+        :param ratio_type: The type of gender ratio to calculate ('male_to_female_percentage' or 'female_to_male_percentage').
+        :return: Tuple of lists (countries, values).
+                 - countries: List of country names.
+                 - values: List of gender ratio values for the top 10 countries.
         """
         male_data = MalePopulationData.objects.filter(country_category='Country')
         female_data = FemalePopulationData.objects.filter(country_category='Country')
@@ -128,14 +150,14 @@ class PopulationDataFetcher:
         ratios = []
         if ratio_type == 'male_to_female_percentage':
             for male, female in zip(male_data, female_data):
-                total_population = male.year_2022 + female.year_2022
-                ratio = (male.year_2022 / total_population) * 100 if total_population != 0 else 0
+                total_population = getattr(male, f'year_{self.year}') + getattr(female, f'year_{self.year}')
+                ratio = (getattr(male, f'year_{self.year}') / total_population) * 100 if total_population != 0 else 0
                 ratios.append((male.country_name, ratio))
             ratios = sorted(ratios, key=lambda x: x[1], reverse=True)[:10]
         elif ratio_type == 'female_to_male_percentage':
             for male, female in zip(male_data, female_data):
-                total_population = male.year_2022 + female.year_2022
-                ratio = (female.year_2022 / total_population) * 100 if total_population != 0 else 0
+                total_population = getattr(male, f'year_{self.year}') + getattr(female, f'year_{self.year}')
+                ratio = (getattr(female, f'year_{self.year}') / total_population) * 100 if total_population != 0 else 0
                 ratios.append((female.country_name, ratio))
             ratios = sorted(ratios, key=lambda x: x[1], reverse=True)[:10]
 
